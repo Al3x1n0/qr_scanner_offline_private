@@ -7,8 +7,8 @@ QR codes are supported, not other barcode formats.
 **Alpha:** this package is not production ready. A previous report of rapid
 Android storage growth did not recur during a subsequent debug test on one
 device; the original cause remains unknown. The latest native binaries have
-been tested on that Android device, but not yet retested on physical iOS
-hardware. Storage use and compatibility may vary across devices and builds.
+been tested on one Android device and one iPad. Storage use and compatibility
+may vary across devices and builds.
 
 ## Requirements
 

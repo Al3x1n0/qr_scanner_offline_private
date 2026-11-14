@@ -1,0 +1,8 @@
+Copyright notices found in Rust source files distributed in decoder-source.tar.gz.
+The applicable BSD-3-Clause conditions and disclaimer are in LICENSE.md.
+
+Copyright (c) Radzivon Bartoshyk 4/2025. All rights reserved.
+Copyright (c) Radzivon Bartoshyk 6/2025. All rights reserved.
+Copyright (c) Radzivon Bartoshyk 7/2025. All rights reserved.
+Copyright (c) Radzivon Bartoshyk 8/2025. All rights reserved.
+Copyright (c) Radzivon Bartoshyk 9/2025. All rights reserved.

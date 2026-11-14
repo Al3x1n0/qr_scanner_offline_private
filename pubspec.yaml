@@ -1,0 +1,18 @@
+name: qr_scanner_offline_private
+description: Experimental offline QR code scanner for Flutter with local decoding.
+version: 0.1.0-alpha.1
+environment:
+  sdk: ^3.13.5
+  flutter: '>=3.38.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  camera: ^0.11.3+1
+  ffi: ^2.1.5
+  code_assets: ^2.2.0
+  hooks: ^2.2.0
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  ffigen: ^20.1.1
+  flutter_lints: ^6.0.0

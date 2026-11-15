@@ -1,4 +1,10 @@
-## Unreleased
+## 0.2.0-alpha.1
+
+- Breaking: migrate scanner widgets to `material_ui`; host apps must migrate
+  their Material widgets. The minimum versions are Flutter 3.50.0 and Dart
+  3.14.0.
+- Update camera to 0.12.2 and use its current Android and iOS implementations.
+- Pin development to Flutter 3.50.0 via FVM and update the FFI generator.
 
 - Contain Rust decoder panics at the FFI boundary and report a decoder error.
 - Clarify that codes outside a cropped preview can still be returned.

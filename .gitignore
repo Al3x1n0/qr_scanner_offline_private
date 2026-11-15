@@ -20,7 +20,6 @@ build/
 .flutter-plugins
 .metadata
 .fvm/
-.fvmrc
 doc/api/
 coverage/
 .test_coverage.dart

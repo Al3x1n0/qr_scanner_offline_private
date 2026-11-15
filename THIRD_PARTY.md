@@ -10,7 +10,7 @@ application; their exact versions and notices depend on the host build.
 
 | Component | Version | Declared license | Notes |
 | --- | --- | --- | --- |
-| Flutter camera | 0.11.3+1 | BSD-3-Clause | Flutter camera source and Android implementation are BSD-3-Clause; the app also uses AndroidX CameraX. |
+| Flutter camera | 0.12.2 | BSD-3-Clause | Flutter camera source and Android implementation are BSD-3-Clause; the app also uses AndroidX CameraX. |
 | Dart ffi | 2.2.0 | BSD-3-Clause | Used by the Dart bindings. |
 | rqrr | 0.10.1 | (MIT OR Apache-2.0) AND ISC | The ISC part covers material derived from quirc. Both the chosen MIT text and ISC notice are retained under `third_party_licenses/`. |
 | image | 0.25.10 | MIT OR Apache-2.0 | Rust image handling; default features are disabled by the decoder manifest; `rqrr` also depends on `image`. |
@@ -98,7 +98,7 @@ Flutter SDK, Android system libraries, and host app dependencies are not
 included in this package; their distributors and app developers should review
 the notices and obligations applicable to their distributions.
 
-Sources: [Rust licensing](https://rustc-dev-guide.rust-lang.org/licenses.html), [LLVM libunwind license](https://github.com/llvm/llvm-project/blob/3b5e7c83a6e226d5bd7ed2e9b67449b64812074c/libunwind/LICENSE.TXT), [GPLv3 text](https://www.gnu.org/licenses/gpl-3.0.html), [rqrr manifest](https://docs.rs/crate/rqrr/0.10.1/source/Cargo.toml), [Flutter camera](https://pub.dev/packages/camera/versions/0.11.3+1), [GNU license compatibility](https://www.gnu.org/licenses/license-compatibility.en.html), [GNU license list](https://www.gnu.org/licenses/license-list.html).
+Sources: [Rust licensing](https://rustc-dev-guide.rust-lang.org/licenses.html), [LLVM libunwind license](https://github.com/llvm/llvm-project/blob/3b5e7c83a6e226d5bd7ed2e9b67449b64812074c/libunwind/LICENSE.TXT), [GPLv3 text](https://www.gnu.org/licenses/gpl-3.0.html), [rqrr manifest](https://docs.rs/crate/rqrr/0.10.1/source/Cargo.toml), [Flutter camera](https://pub.dev/packages/camera/versions/0.12.2), [GNU license compatibility](https://www.gnu.org/licenses/license-compatibility.en.html), [GNU license list](https://www.gnu.org/licenses/license-list.html).
 
 ## Rust dependency license inventory
 
@@ -134,9 +134,9 @@ The following hosted packages are reachable from the direct runtime and build-ho
 | Package | Version | Notice location |
 | --- | --- | --- |
 | async | 2.13.1 | `third_party_licenses/dart/async-2.13.1/` |
-| camera | 0.11.3+1 | `third_party_licenses/dart/camera-0.11.3+1/` |
-| camera_android_camerax | 0.6.30 | `third_party_licenses/dart/camera_android_camerax-0.6.30/` |
-| camera_avfoundation | 0.9.23+2 | `third_party_licenses/dart/camera_avfoundation-0.9.23+2/` |
+| camera | 0.12.2 | `third_party_licenses/dart/camera-0.12.2/` |
+| camera_android_camerax | 0.7.6+1 | `third_party_licenses/dart/camera_android_camerax-0.7.6+1/` |
+| camera_avfoundation | 0.11.1 | `third_party_licenses/dart/camera_avfoundation-0.11.1/` |
 | camera_platform_interface | 2.15.0 | `third_party_licenses/dart/camera_platform_interface-2.15.0/` |
 | camera_web | 0.3.6 | `third_party_licenses/dart/camera_web-0.3.6/` |
 | characters | 1.4.1 | `third_party_licenses/dart/characters-1.4.1/` |
@@ -161,3 +161,7 @@ The following hosted packages are reachable from the direct runtime and build-ho
 | vector_math | 2.4.4 | `third_party_licenses/dart/vector_math-2.4.4/` |
 | web | 1.1.2 | `third_party_licenses/dart/web-1.1.2/` |
 | yaml | 3.1.4 | `third_party_licenses/dart/yaml-3.1.4/` |
+| material_ui | 1.11.0 | `third_party_licenses/dart/material_ui-1.11.0/` |
+| cupertino_ui | 1.1.6 | `third_party_licenses/dart/cupertino_ui-1.1.6/` |
+| intl | 0.20.3 | `third_party_licenses/dart/intl-0.20.3/` |
+| listen | 1.0.1 | `third_party_licenses/dart/listen-1.0.1/` |

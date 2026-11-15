@@ -6,20 +6,27 @@ QR codes are supported, not other barcode formats.
 
 **Alpha:** this package is not production ready. A previous report of rapid
 Android storage growth did not recur during a subsequent debug test on one
-device; the original cause remains unknown. The latest native binaries have
-been tested on one Android device and one iPad. Storage use and compatibility
-may vary across devices and builds.
+device; the original cause remains unknown. This version was reported to work
+on one Android device and on iOS, as reported by the tester. Detailed results
+for individual QR samples and controls were not recorded. Storage use and
+compatibility may vary across devices and builds.
 
 ## Requirements
 
-- Dart `>=3.13.5 <4.0.0` and Flutter `>=3.38.0`. Your Flutter installation
+- Dart `>=3.14.0 <4.0.0` and Flutter `>=3.50.0`. Your Flutter installation
   must include a compatible Dart SDK.
 - Android API 24 or later; bundled architectures: arm, arm64, and x64.
 - iOS: the resolved camera implementation requires iOS 13 or later; the bundled
-  arm64 simulator decoder requires iOS 14 or later. Bundled architectures are
+  arm64 simulator decoder requires iOS 14 or later. Flutter 3.50 requires iOS
+  15 or later. Bundled architectures are
   arm64 for devices and arm64/x64 for simulators.
 - A camera and camera permission. A simulator build does not establish that
   scanning works on a physical device.
+
+This version uses `material_ui` and requires the host app to migrate its Material
+widgets to that package. This is a breaking change from 0.1.x; see the
+[Flutter migration guide](https://docs.flutter.dev/release/breaking-changes/material-ui-and-cupertino-ui).
+The development SDK is pinned to Flutter 3.50.0 using FVM.
 
 The package bundles its native decoder; Rust is not required to build a host
 app for the supported targets. Other platforms and architectures are not
@@ -35,7 +42,7 @@ published:
 dependencies:
   flutter:
     sdk: flutter
-  qr_scanner_offline_private: 0.1.0-alpha.1
+  qr_scanner_offline_private: 0.2.0-alpha.1
 ```
 
 Then run `flutter pub get`. For local development before publication, replace
@@ -115,7 +122,7 @@ value and provides start, stop, torch and camera-switch controls. Replace the
 result handling with your app's own behavior; QR content may be sensitive.
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qr_scanner_offline_private/qr_scanner_offline_private.dart';
 
 class ScannerScreen extends StatefulWidget {

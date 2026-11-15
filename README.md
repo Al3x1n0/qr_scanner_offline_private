@@ -260,6 +260,10 @@ Give the scanner bounded dimensions, for example with `Expanded`, `SizedBox`
 or `AspectRatio`. `fit: BoxFit.cover` fills the area and can crop the preview;
 `BoxFit.contain` fits the full preview within it. An overlay is visual only:
 **the decoder still analyzes the entire camera frame**, not just the box.
+This includes parts cropped out of the preview: if multiple codes are in the
+frame, a code outside the visible area may be returned instead of the one shown.
+Do not rely on the overlay or preview crop to select or exclude codes. Treat
+every decoded value as untrusted input and validate it before using it.
 
 ```dart
 AspectRatio(
@@ -314,3 +318,7 @@ The package's own code is GPL-3.0-only; see [LICENSE](LICENSE). Third-party
 components retain their own licenses and attribution requirements; see
 [THIRD_PARTY.md](THIRD_PARTY.md). Review the license obligations for your app
 and its separately resolved dependencies before distributing it.
+
+## Acknowledgments
+
+Thanks to [@Daveide90](https://github.com/Daveide90) for contributing to this project.

@@ -11,9 +11,9 @@ and normalizes the iOS install names with `install_name_tool`.
 Cargo lockfile and vendored crate sources, including their licenses. Extract
 it and read its `README.txt` for build requirements and instructions. All six
 targets were built from this archive offline with an empty Cargo package cache.
-Two clean builds in different directories produced identical Android outputs;
-the iOS outputs differed. This does not establish reproducibility across other
-machines or prove device behavior.
+The current build has not been independently reproduced. Earlier Android
+outputs matched across two local builds while iOS outputs differed; those
+results do not establish reproducibility of the current files or device behavior.
 
 The package hook selects one bundled file per supported platform, SDK and
 architecture. Android 64-bit binaries have 16 KiB segment alignment. The

@@ -1,3 +1,8 @@
+## Unreleased
+
+- Contain Rust decoder panics at the FFI boundary and report a decoder error.
+- Clarify that codes outside a cropped preview can still be returned.
+
 ## 0.1.0-alpha.1
 
 - Initial experimental frame conversion, Rust QR decoder source, and low-contrast retry.

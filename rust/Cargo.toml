@@ -9,3 +9,6 @@ crate-type = ["staticlib", "cdylib"]
 [dependencies]
 rqrr = "0.10"
 image = { version = "0.25", default-features = false }
+
+[profile.release]
+panic = "unwind"

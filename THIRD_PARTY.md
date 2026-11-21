@@ -11,6 +11,7 @@ application; their exact versions and notices depend on the host build.
 | Component | Version | Declared license | Notes |
 | --- | --- | --- | --- |
 | Flutter camera | 0.12.2 | BSD-3-Clause | Flutter camera source and Android implementation are BSD-3-Clause; the app also uses AndroidX CameraX. |
+| Flutter app template | Flutter SDK | BSD-3-Clause | The example includes Android and iOS scaffolding and stock assets from the Flutter app template. See `third_party_licenses/flutter-app-template-BSD.txt`. |
 | Dart ffi | 2.2.0 | BSD-3-Clause | Used by the Dart bindings. |
 | rqrr | 0.11.0 | (MIT OR Apache-2.0) AND ISC | The ISC part covers material derived from quirc. Both the chosen MIT text and ISC notice are retained under `third_party_licenses/`. |
 | ZXing test image | `qrcode-6/7.png` | Apache-2.0 | A grayscale derived regression fixture and attribution are included under `rust/tests/fixtures/`. |

@@ -41,7 +41,7 @@ published:
 dependencies:
   flutter:
     sdk: flutter
-  qr_scanner_offline_private: 0.2.0-alpha.2
+  qr_scanner_offline_private: 0.2.0-alpha.3
 ```
 
 Then run `flutter pub get`. For local development before publication, replace
@@ -117,6 +117,9 @@ simulator. Check the target in Xcode and, if your app uses CocoaPods, its
 `ios/Podfile`. Use a real iPhone or iPad to test the camera and permissions.
 
 ## Add a scanner screen
+
+Run the [example app](example/README.md) on Android or iOS to try the scanner
+with camera switching, torch, zoom, and duplicate filtering.
 
 The following is a complete screen to add to an existing Flutter app. Open it
 with `Navigator.push`, or use it as the app's home screen. It shows the latest

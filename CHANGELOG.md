@@ -1,3 +1,8 @@
+## 0.2.0-alpha.3
+
+- Include a runnable Android and iOS example with camera controls, live
+  detections, and instructions for running it from a clean checkout.
+
 ## 0.2.0-alpha.2
 
 - Update the bundled QR decoder to `rqrr` 0.11.0 with `lru` 0.18.5, which includes the fix for [RUSTSEC-2026-0253](https://rustsec.org/advisories/RUSTSEC-2026-0253.html).

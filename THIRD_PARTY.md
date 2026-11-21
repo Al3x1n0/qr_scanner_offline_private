@@ -12,7 +12,7 @@ application; their exact versions and notices depend on the host build.
 | --- | --- | --- | --- |
 | Flutter camera | 0.12.2 | BSD-3-Clause | Flutter camera source and Android implementation are BSD-3-Clause; the app also uses AndroidX CameraX. |
 | Dart ffi | 2.2.0 | BSD-3-Clause | Used by the Dart bindings. |
-| rqrr | 0.10.1 | (MIT OR Apache-2.0) AND ISC | The ISC part covers material derived from quirc. Both the chosen MIT text and ISC notice are retained under `third_party_licenses/`. |
+| rqrr | 0.11.0 | (MIT OR Apache-2.0) AND ISC | The ISC part covers material derived from quirc. Both the chosen MIT text and ISC notice are retained under `third_party_licenses/`. |
 | image | 0.25.10 | MIT OR Apache-2.0 | Rust image handling; default features are disabled by the decoder manifest; `rqrr` also depends on `image`. |
 | ZXing test image | `qrcode-6/7.png` | Apache-2.0 | A grayscale derived regression fixture and attribution are included under `rust/tests/fixtures/`. |
 
@@ -98,7 +98,7 @@ Flutter SDK, Android system libraries, and host app dependencies are not
 included in this package; their distributors and app developers should review
 the notices and obligations applicable to their distributions.
 
-Sources: [Rust licensing](https://rustc-dev-guide.rust-lang.org/licenses.html), [LLVM libunwind license](https://github.com/llvm/llvm-project/blob/3b5e7c83a6e226d5bd7ed2e9b67449b64812074c/libunwind/LICENSE.TXT), [GPLv3 text](https://www.gnu.org/licenses/gpl-3.0.html), [rqrr manifest](https://docs.rs/crate/rqrr/0.10.1/source/Cargo.toml), [Flutter camera](https://pub.dev/packages/camera/versions/0.12.2), [GNU license compatibility](https://www.gnu.org/licenses/license-compatibility.en.html), [GNU license list](https://www.gnu.org/licenses/license-list.html).
+Sources: [Rust licensing](https://rustc-dev-guide.rust-lang.org/licenses.html), [LLVM libunwind license](https://github.com/llvm/llvm-project/blob/3b5e7c83a6e226d5bd7ed2e9b67449b64812074c/libunwind/LICENSE.TXT), [GPLv3 text](https://www.gnu.org/licenses/gpl-3.0.html), [rqrr manifest](https://docs.rs/crate/rqrr/0.11.0/source/Cargo.toml), [Flutter camera](https://pub.dev/packages/camera/versions/0.12.2), [GNU license compatibility](https://www.gnu.org/licenses/license-compatibility.en.html), [GNU license list](https://www.gnu.org/licenses/license-list.html).
 
 ## Rust dependency license inventory
 
@@ -106,24 +106,22 @@ The following expressions come from the locked Cargo metadata. License texts bun
 
 | Crate | Version | Declared license expression |
 | --- | --- | --- |
-| allocator-api2 | 0.2.21 | MIT OR Apache-2.0 |
 | autocfg | 1.5.1 | Apache-2.0 OR MIT |
 | bytemuck | 1.25.2 | Zlib OR Apache-2.0 OR MIT |
 | byteorder-lite | 0.1.0 | Unlicense OR MIT |
-| equivalent | 1.0.3 | Apache-2.0 OR MIT |
 | foldhash | 0.2.0 | Zlib |
 | g2gen | 1.2.2 | MIT/Apache-2.0 |
 | g2p | 1.2.2 | MIT/Apache-2.0 |
 | g2poly | 1.2.2 | MIT/Apache-2.0 |
-| hashbrown | 0.16.1 | MIT OR Apache-2.0 |
+| hashbrown | 0.17.1 | MIT OR Apache-2.0 |
 | image | 0.25.10 | MIT OR Apache-2.0 |
-| lru | 0.16.4 | MIT |
+| lru | 0.18.5 | MIT |
 | moxcms | 0.8.1 | BSD-3-Clause OR Apache-2.0 |
 | num-traits | 0.2.19 | MIT OR Apache-2.0 |
 | proc-macro2 | 1.0.107 | MIT OR Apache-2.0 |
 | pxfm | 0.1.30 | BSD-3-Clause OR Apache-2.0 |
 | quote | 1.0.47 | MIT OR Apache-2.0 |
-| rqrr | 0.10.1 | (MIT OR Apache-2.0) AND ISC |
+| rqrr | 0.11.0 | (MIT OR Apache-2.0) AND ISC |
 | syn | 2.0.119 | MIT OR Apache-2.0 |
 | unicode-ident | 1.0.27 | (MIT OR Apache-2.0) AND Unicode-3.0 |
 

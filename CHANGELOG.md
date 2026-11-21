@@ -1,3 +1,7 @@
+## 0.2.0-alpha.2
+
+- Update the bundled QR decoder to `rqrr` 0.11.0 with `lru` 0.18.5, which includes the fix for [RUSTSEC-2026-0253](https://rustsec.org/advisories/RUSTSEC-2026-0253.html).
+
 ## 0.2.0-alpha.1
 
 - Breaking: migrate scanner widgets to `material_ui`; host apps must migrate

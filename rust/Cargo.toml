@@ -7,7 +7,7 @@ edition = "2021"
 crate-type = ["staticlib", "cdylib"]
 
 [dependencies]
-rqrr = "0.10"
+rqrr = "0.11"
 image = { version = "0.25", default-features = false }
 
 [profile.release]

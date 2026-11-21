@@ -42,7 +42,7 @@ published:
 dependencies:
   flutter:
     sdk: flutter
-  qr_scanner_offline_private: 0.2.0-alpha.1
+  qr_scanner_offline_private: 0.2.0-alpha.2
 ```
 
 Then run `flutter pub get`. For local development before publication, replace

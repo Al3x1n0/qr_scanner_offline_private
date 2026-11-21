@@ -6,10 +6,9 @@ QR codes are supported, not other barcode formats.
 
 **Alpha:** this package is not production ready. A previous report of rapid
 Android storage growth did not recur during a subsequent debug test on one
-device; the original cause remains unknown. This version was reported to work
-on one Android device and on iOS, as reported by the tester. Detailed results
-for individual QR samples and controls were not recorded. Storage use and
-compatibility may vary across devices and builds.
+device. The original cause remains unknown. Earlier builds were tested on
+Android and iOS. Storage use and compatibility can vary across devices and
+builds.
 
 ## Requirements
 
@@ -75,10 +74,11 @@ before `<application>`:
 <uses-permission android:name="android.permission.CAMERA" />
 ```
 
-The current Android camera implementation can also contribute microphone and
-legacy storage permissions to the merged manifest, even though this scanner
-disables audio. If **no other feature in your app** needs them, remove them in
-the app manifest. Add the `tools` namespace to the existing `<manifest>` tag
+The Android CameraX implementation can contribute `RECORD_AUDIO` and legacy
+`WRITE_EXTERNAL_STORAGE` (through API 28), even though this scanner disables
+audio. Other dependencies can contribute `READ_EXTERNAL_STORAGE`. If **no
+other feature in your app** needs these permissions, remove them in the app
+manifest. Add the `tools` namespace to the existing `<manifest>` tag
 and add the following elements alongside the camera permission:
 
 ```xml
@@ -96,8 +96,10 @@ and add the following elements alongside the camera permission:
 ```
 
 The final permissions depend on the app's entire dependency graph. Inspect the
-merged manifest for the build variant you release; do not remove permissions
-needed by another feature. See Android's [manifest merger documentation](https://developer.android.com/build/manage-manifests).
+merged manifest for the build variant you release and keep permissions needed
+by your app's other features. For example, the resolved Android media
+dependency can add `ACCESS_NETWORK_STATE`. See Android's
+[manifest merger documentation](https://developer.android.com/build/manage-manifests).
 
 ### iOS
 
@@ -145,10 +147,15 @@ class _ScannerScreenState extends State<ScannerScreen> {
     super.dispose();
   }
 
-  void showError(Object value) {
+  void showError(Object _) {
     if (!mounted) return;
-    setState(() => error = value.toString());
+    setState(() => error = 'Unable to operate the scanner.');
   }
+
+  String displayText(String value) => value.replaceAllMapped(
+    RegExp(r'[\x00-\x1f\x7f-\x9f\u061c\u200e\u200f\u2028-\u202e\u2066-\u2069]'),
+    (match) => '\\u{${match.group(0)!.codeUnitAt(0).toRadixString(16)}}',
+  );
 
   Future<void> runAction(Future<void> Function() action) async {
     try {
@@ -169,13 +176,13 @@ class _ScannerScreenState extends State<ScannerScreen> {
             child: OfflineQrScanner(
               controller: scanner,
               onDetected: (value) {
-                if (mounted) setState(() => result = value);
+                if (mounted) setState(() => result = displayText(value));
               },
               onError: showError,
             ),
           ),
           if (result != null) Text('Result: $result'),
-          if (error != null) Text('Scanner error: $error'),
+          if (error != null) Text(error!),
           AnimatedBuilder(
             animation: scanner,
             builder: (context, _) => Wrap(
@@ -211,9 +218,10 @@ class _ScannerScreenState extends State<ScannerScreen> {
 The widget requests camera access as it initializes. The system can show its
 permission prompt then. If access is denied or initialization fails, `onError`
 receives the error; show an appropriate message and follow the platform's
-permission recovery flow. While no camera is initialized, the widget shows a
-progress indicator. The sample displays the error outside the preview so it is
-not hidden by that indicator.
+permission recovery flow. The scanner shows a progress indicator while opening
+the camera and a generic message when opening fails. Supply `loadingBuilder`
+and `errorBuilder` to customize those views. The error builder also receives
+the underlying startup error so the app can map known errors to localized text.
 
 ## Controller and lifecycle
 
@@ -224,20 +232,22 @@ its own controller and starts automatically. With an external controller:
   and dispose it when no longer needed. Call its methods only while the widget
   is attached; otherwise they throw `StateError`.
 - Set `autoStart: false` to wait for `await scanner.start()`. `stop()` releases
-  the camera; `start()` requests it again. The widget releases the camera when
-  the app leaves the foreground and resumes it when appropriate if scanning is
-  still requested. Removing the widget also releases the camera.
+  the camera; `start()` requests it again. The widget keeps the session through
+  transient `inactive` states, such as a system permission prompt. It releases
+  the camera when the app is hidden, paused or detached, and resumes if
+  scanning is still requested. Removing the widget also releases the camera.
 - Choose the initial `facing` (`CameraLensDirection.back` by default) and
   `resolution` (`ResolutionPreset.medium` by default) when constructing the
   controller. Availability and supported resolutions depend on the device.
 - `isRunning`, `torchEnabled`, `zoomScale` and `error` expose the current state
   or most recent error. The controller is a `ChangeNotifier`: use
-  `AnimatedBuilder` or a listener to update your UI. `error` records the most
-  recent error and is not automatically cleared after a successful operation.
+  `AnimatedBuilder` or a listener to update your UI. An explicit `start()`
+  clears the previous error when the request is processed. `stop()` retains
+  the most recent error.
 - `setTorch(bool)`, `toggleTorch()`, `switchCamera()`, `getZoomRange()` and
   `setZoomScale(double)` return futures. Catch errors such as unsupported
-  hardware, an unavailable camera or an invalid zoom value. Torch and zoom
-  require a running camera. Camera switching is intended for a running session.
+  hardware, an unavailable camera or an invalid zoom value. Torch, zoom and
+  camera switching require a running camera.
 - If replacing a controller on an existing scanner, give the scanner a new key.
   Do not dispose an externally owned controller while it is still in use.
 
@@ -258,19 +268,23 @@ stream `scanner.detections` and cancel your subscription when finished. Using
 both reports the same detection through both channels. The default
 `duplicateFilterDuration` is zero, so the same visible code can be reported on
 successive frames. Set a positive duration to suppress consecutive reports of
-the same value within that interval; a different value is reported immediately.
-This is not a guarantee of exactly one event per physical QR code.
+the same value within that interval. A different value is reported immediately.
+Stopping the session resets this filter.
 
 ## Preview and overlay
 
 Give the scanner bounded dimensions, for example with `Expanded`, `SizedBox`
-or `AspectRatio`. `fit: BoxFit.cover` fills the area and can crop the preview;
-`BoxFit.contain` fits the full preview within it. An overlay is visual only:
-**the decoder still analyzes the entire camera frame**, not just the box.
-This includes parts cropped out of the preview: if multiple codes are in the
-frame, a code outside the visible area may be returned instead of the one shown.
-Do not rely on the overlay or preview crop to select or exclude codes. Treat
-every decoded value as untrusted input and validate it before using it.
+or `AspectRatio`. `fit: BoxFit.cover` fills the area and can crop the preview.
+`BoxFit.contain` fits the full preview within it. By default the decoder
+analyzes the full stream frame, including parts that may be outside the visible
+preview. The overlay controls the display only.
+
+Set `frameRegion` to crop the stream pixels before decoding. For example,
+`Rect.fromLTRB(0.25, 0.25, 0.75, 0.75)` scans the central half of the frame in
+each dimension. Coordinates run from 0 to 1 from the top left of the **raw
+stream frame**. Preview fitting, rotation, mirroring and the camera plugin's
+separate preview stream can affect which of those pixels are displayed. An
+overlay drawn in widget coordinates does not define the decoding region.
 
 ```dart
 AspectRatio(
@@ -306,20 +320,32 @@ Most apps should use the widget. The package also exports `Frame`, `lumaFrame`,
 `decodeFrame` and `adaptiveThreshold` for apps managing their own camera stream.
 `lumaFrame` accepts a `CameraImage` in YUV420 or BGRA8888 format and copies its
 luminance into a `Frame`. `Frame` holds a `Uint8List` of exactly `width * height`
-8-bit luminance values in row-major order. `decodeFrame(frame)` returns UTF-8
-text or `null` if no code is found; it retries with adaptive thresholding and
-can throw for invalid input, invalid UTF-8, decoder errors or unsupported
-platforms. It is synchronous: avoid running it on the UI isolate for every
-frame. Manage camera lifecycle, frame scheduling, errors and buffer disposal
-in your own integration. `adaptiveThreshold` returns a new buffer and accepts
-optional `radius` (at least 1, default 16) and `offset` (nonnegative, default 3).
+8-bit luminance values in row-major order. Input is limited to 8,294,400 pixels
+(3840 × 2160). `decodeFrame(frame)` returns UTF-8 text or `null` if no
+supported text code is found. Empty payloads and invalid UTF-8 are
+skipped. A miss triggers a retry with adaptive thresholding. The widget runs
+these retries on alternate frames in a background isolate. `decodeFrame` is
+synchronous and can throw for invalid input, decoder failures or unsupported
+platforms. Manage camera lifecycle, frame scheduling, errors and disposal of
+the input buffer when using it directly. `adaptiveThreshold` returns a new
+buffer and accepts optional `radius` (at least 1, default 16) and `offset`
+(nonnegative, default 3).
 
 ## Privacy and licensing
 
 The scanner is designed to process frames locally without sending QR content,
 images, usage metrics or analytics over the network. This is not an independent
 certification of the dependency graph or the host app. Avoid logging or storing
-QR content unless your app explicitly needs it.
+QR content unless your app explicitly needs it. The scanner clears its own
+mutable temporary buffers after use. The camera plugin and Rust decoding
+dependency manage their own intermediate buffers. Strings returned to the
+host app are immutable and cannot be reliably erased from managed memory.
+
+Treat every decoded value as untrusted input. The example escapes control
+characters and bidirectional formatting marks such as `U+202E` for display.
+Validate the original value for its intended use. Before opening a QR as a
+link, parse it and allow only the URI schemes and destinations your app
+expects. Avoid logging raw QR values or displaying exception details to users.
 
 The package's own code is GPL-3.0-only; see [LICENSE](LICENSE). Third-party
 components retain their own licenses and attribution requirements; see

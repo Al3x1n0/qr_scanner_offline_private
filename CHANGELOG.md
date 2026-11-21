@@ -1,6 +1,13 @@
 ## 0.2.0-alpha.2
 
 - Update the bundled QR decoder to `rqrr` 0.11.0 with `lru` 0.18.5, which includes the fix for [RUSTSEC-2026-0253](https://rustsec.org/advisories/RUSTSEC-2026-0253.html).
+- Keep camera sessions through transient inactivity and serialize controller
+  changes, camera switching and shutdown.
+- Move luma conversion and decoding to a persistent isolate, reuse decoder
+  buffers and bound frame sizes.
+- Add raw-frame cropping and customizable startup error and loading views.
+- Harden decoder input checks, simplify bundled Rust dependencies, and verify
+  precompiled decoder checksums during mobile builds.
 
 ## 0.2.0-alpha.1
 

@@ -11,6 +11,14 @@ Future<void> main() async {
         func: (node) {
           node.isIncluded = node.originalName == 'qr_decode';
         },
+        macroConstant: (node) {
+          node.isIncluded = const {
+            'QR_DECODE_NOT_FOUND',
+            'QR_DECODE_INVALID_INPUT',
+            'QR_DECODE_CAPACITY_EXCEEDED',
+            'QR_DECODE_PANIC',
+          }.contains(node.originalName);
+        },
       ),
     ],
     output: Output(

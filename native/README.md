@@ -5,15 +5,16 @@ are listed in `SOURCE_SHA256SUMS`. `SHA256SUMS` records the output hashes.
 They were rebuilt from `decoder-source.tar.gz` using its `rebuild.sh` with
 Rust 1.90.0, Android NDK 28.2.13676358 (API 24), and Xcode 27.0 / iOS SDK
 27.0. The script uses Cargo's `--locked --offline` options, remaps local paths,
-and normalizes the iOS install names with `install_name_tool`.
+and normalizes the iOS install names with `install_name_tool`. The release
+profile strips symbols while preserving the `qr_decode` export.
 
-`decoder-source.tar.gz` contains the corresponding Rust decoder source, pinned
-Cargo lockfile and vendored crate sources, including their licenses. Extract
-it and read its `README.txt` for build requirements and instructions. All six
-targets were built from this archive offline with an empty Cargo package cache.
-The current build has not been independently reproduced. Earlier Android
-outputs matched across two local builds while iOS outputs differed; those
-results do not establish reproducibility of the current files or device behavior.
+`decoder-source.tar.gz` contains the corresponding Rust decoder source, tests,
+pinned Cargo lockfile and vendored crate sources, including their licenses.
+Extract it and read its `README.txt` for build requirements and instructions.
+All six targets were built offline from the archive with an empty Cargo
+package cache. A second clean build on the same host matched all three Android
+outputs byte for byte. The iOS hashes differed. Independent reproduction and
+device testing remain pending.
 
 The package hook selects one bundled file per supported platform, SDK and
 architecture. Android 64-bit binaries have 16 KiB segment alignment. The

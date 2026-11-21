@@ -22,3 +22,11 @@ external int qr_decode(
   ffi.Pointer<ffi.Uint8> output,
   int capacity,
 );
+
+const int QR_DECODE_CAPACITY_EXCEEDED = -2;
+
+const int QR_DECODE_INVALID_INPUT = -1;
+
+const int QR_DECODE_NOT_FOUND = 0;
+
+const int QR_DECODE_PANIC = -3;

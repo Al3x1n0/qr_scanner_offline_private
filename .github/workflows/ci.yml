@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '22 4 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  flutter:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Set up Flutter 3.50.0
+        run: |
+          git clone --depth 1 --branch 3.50.0 https://github.com/flutter/flutter.git "$RUNNER_TEMP/flutter"
+          test "$(git -C "$RUNNER_TEMP/flutter" rev-parse HEAD)" = ab2912035e160d9cad6306df307576da6128ebdb
+          printf '%s\n' "$RUNNER_TEMP/flutter/bin" >> "$GITHUB_PATH"
+      - run: flutter pub get
+      - run: flutter analyze --no-pub
+      - run: flutter test --no-pub
+      - name: Scan resolved Dart and Rust dependencies
+        shell: bash
+        run: |
+          scanner="$RUNNER_TEMP/osv-scanner"
+          curl --fail --location --silent --show-error --retry 3 \
+            --output "$scanner" \
+            https://github.com/google/osv-scanner/releases/download/v2.7.1/osv-scanner_linux_amd64
+          printf '%s  %s\n' fb7dab19a8bd9bbe5c3189f09d4b7ee1820c9553a23bac202648a56efd2f6ee8 "$scanner" | sha256sum --check
+          chmod +x "$scanner"
+          db_cache="$RUNNER_TEMP/osv-db"
+          for ecosystem in Pub crates.io; do
+            db_dir="$db_cache/osv-scalibr/$ecosystem"
+            mkdir -p "$db_dir"
+            curl --fail --location --silent --show-error --retry 3 \
+              --output "$db_dir/all.zip" \
+              "https://osv-vulnerabilities.storage.googleapis.com/$ecosystem/all.zip"
+          done
+          OSV_SCANNER_LOCAL_DB_CACHE_DIRECTORY="$db_cache" \
+            "$scanner" scan source --offline -L pubspec.lock -L rust/Cargo.lock
+
+  native:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Verify native checksums
+        run: sha256sum --check --strict native/SHA256SUMS native/SOURCE_SHA256SUMS
+      - name: Verify corresponding source and test the vendored decoder
+        shell: bash
+        run: |
+          source_dir="$(mktemp -d "$RUNNER_TEMP/decoder-source.XXXXXX")"
+          tar -xzf native/decoder-source.tar.gz -C "$source_dir"
+          cmp rust/Cargo.toml "$source_dir/Cargo.toml"
+          cmp rust/Cargo.lock "$source_dir/Cargo.lock"
+          cmp rust/rust-toolchain.toml "$source_dir/rust-toolchain.toml"
+          cmp src/qr_decoder.h "$source_dir/qr_decoder.h"
+          diff -r rust/src "$source_dir/src"
+          diff -r rust/tests "$source_dir/tests"
+
+          rustup toolchain install 1.90.0 --profile minimal --component clippy
+          cd "$source_dir"
+          cargo +1.90.0 test --locked --offline --release
+          cargo +1.90.0 clippy --locked --offline --all-targets -- -D warnings

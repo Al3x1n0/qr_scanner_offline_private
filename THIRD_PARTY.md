@@ -13,7 +13,6 @@ application; their exact versions and notices depend on the host build.
 | Flutter camera | 0.12.2 | BSD-3-Clause | Flutter camera source and Android implementation are BSD-3-Clause; the app also uses AndroidX CameraX. |
 | Dart ffi | 2.2.0 | BSD-3-Clause | Used by the Dart bindings. |
 | rqrr | 0.11.0 | (MIT OR Apache-2.0) AND ISC | The ISC part covers material derived from quirc. Both the chosen MIT text and ISC notice are retained under `third_party_licenses/`. |
-| image | 0.25.10 | MIT OR Apache-2.0 | Rust image handling; default features are disabled by the decoder manifest; `rqrr` also depends on `image`. |
 | ZXing test image | `qrcode-6/7.png` | Apache-2.0 | A grayscale derived regression fixture and attribution are included under `rust/tests/fixtures/`. |
 
 Apache-2.0, MIT, ISC, BSD-3-Clause and zlib are generally compatible with GPLv3, subject to their conditions. The selected project license applies to this project's code and does not erase third-party conditions. The lock includes `foldhash` under zlib and `unicode-ident` under `(MIT OR Apache-2.0) AND Unicode-3.0`; Unicode-3.0 is GPL-compatible according to the FSF. `unicode-ident` participates in build tooling; whether a component's code is included in a final artifact needs verification.
@@ -33,9 +32,8 @@ Apache-2.0, MIT, ISC, BSD-3-Clause and zlib are generally compatible with GPLv3,
   also included in `native/decoder-source.tar.gz`.
 - Host applications should review their resolved AndroidX CameraX, Gradle,
   iOS and Flutter SDK dependencies and their own attribution obligations.
-- Previous decoder builds on the same machine produced identical Android
-  outputs; iOS outputs differed. Those results do not establish the
-  reproducibility of subsequently rebuilt binaries. Independent reproduction
+- Two clean builds of the current decoder on the same machine produced
+  identical Android outputs. The iOS outputs differed. Independent reproduction
   and device testing of the current binaries remain outstanding.
 
 ## Native link audit and corresponding source limits
@@ -46,10 +44,9 @@ binary hashes. Their maps include Rust standard-library components and object
 files from the NDK's static `libunwind.a`, in addition to decoder crates. The
 three iOS rebuilds produced maps but differed in hash from the shipped binaries;
 the maps therefore describe those rebuilds, not proven byte-identical copies of
-the shipped iOS artifacts. Optimization and inlining mean the map's archive
-names alone are not a complete inventory of source-level contributions. Keep
-all crate notices, including the source-level copyright inventories for moxcms
-and pxfm, rather than only notices for names visible in a link map.
+the shipped iOS artifacts. Optimization and inlining limit what the archive
+names in a link map can tell us about source-level contributions. Keep all
+crate notices for the distributed versions.
 
 The Rust compiler identifies its source as [commit 1159e78c4747b02ef996e55082b704c09b970588](https://github.com/rust-lang/rust/tree/1159e78c4747b02ef996e55082b704c09b970588); Rust also distributes a [1.90.0 source archive](https://static.rust-lang.org/dist/rustc-1.90.0-src.tar.xz).
 The NDK toolchain identifies [LLVM base revision 3b5e7c83a6e226d5bd7ed2e9b67449b64812074c](https://github.com/llvm/llvm-project/tree/3b5e7c83a6e226d5bd7ed2e9b67449b64812074c)
@@ -106,20 +103,13 @@ The following expressions come from the locked Cargo metadata. License texts bun
 
 | Crate | Version | Declared license expression |
 | --- | --- | --- |
-| autocfg | 1.5.1 | Apache-2.0 OR MIT |
-| bytemuck | 1.25.2 | Zlib OR Apache-2.0 OR MIT |
-| byteorder-lite | 0.1.0 | Unlicense OR MIT |
 | foldhash | 0.2.0 | Zlib |
 | g2gen | 1.2.2 | MIT/Apache-2.0 |
 | g2p | 1.2.2 | MIT/Apache-2.0 |
 | g2poly | 1.2.2 | MIT/Apache-2.0 |
 | hashbrown | 0.17.1 | MIT OR Apache-2.0 |
-| image | 0.25.10 | MIT OR Apache-2.0 |
 | lru | 0.18.5 | MIT |
-| moxcms | 0.8.1 | BSD-3-Clause OR Apache-2.0 |
-| num-traits | 0.2.19 | MIT OR Apache-2.0 |
 | proc-macro2 | 1.0.107 | MIT OR Apache-2.0 |
-| pxfm | 0.1.30 | BSD-3-Clause OR Apache-2.0 |
 | quote | 1.0.47 | MIT OR Apache-2.0 |
 | rqrr | 0.11.0 | (MIT OR Apache-2.0) AND ISC |
 | syn | 2.0.119 | MIT OR Apache-2.0 |
